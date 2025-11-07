@@ -1,2 +1,3 @@
-# Javascript-Projects
-In this repository i will be pushing in all the projects from beginner to advanced level that i will do in my second semester of computer science.
+# JavaScript Projects
+
+This repository contains all the JavaScript projects I’ll be building during my second semester of Computer Science — ranging from beginner to advanced level. Each project will showcase different concepts and techniques as I progress through my learning journey.
