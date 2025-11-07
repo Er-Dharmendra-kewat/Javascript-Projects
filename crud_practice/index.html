@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="main">
+        <input class="input" type="text" placeholder="enter tasks">
+        <button class="addBtn" onclick="addTask()">Add</button>
+        <ul class="listContainer">
+
+        </ul>
+    </div>
+
+    <script>
+        let input = document.querySelector(".input")
+        let addBtn = document.querySelector(".addBtn");
+        let listContainer = document.querySelector(".listContainer")
+
+        let todos = JSON.parse(localStorage.getItem("mytodos")) || [];
+        
+        function addTask() {
+            let task = input.value.trim();
+            if (task == "") {
+                alert("please enter task");
+                return;
+            }
+
+            let li = document.createElement("li");
+            li.innerText = input.value + " ";
+            listContainer.appendChild(li)
+
+            let editBtn = document.createElement("button");
+            editBtn.innerText = "Edit";
+
+            let deleteBtn = document.createElement("button");
+            deleteBtn.innerText = "Delete";
+            li.appendChild(deleteBtn);
+
+            editBtn.onclick = function () {
+                let newTask = prompt("Edit your taks", task);
+                if (newTask !== null && newTask.trim() !== "") {
+                    let index = todos.indexOf(task);
+                    todos[index] = newTask.trim();
+                    saveData();
+                    li.firstChild.textContent = newTask + " ";
+                }
+
+            }
+
+            li.appendChild(editBtn);
+            todos.push(task);
+
+            deleteBtn.onclick = function () {
+                li.remove();
+                todos = todos.filter((t) => t !== task);
+                saveData();
+            }
+            saveData();
+            input.value = "";
+
+        }
+        function saveData() {
+            localStorage.setItem("mytodos", JSON.stringify(todos));
+        }
+
+        input.addEventListener("keypress", function (e) {
+            if (e.key == "Enter") {
+                addTask();
+
+            }
+        });
+
+        window.onload = function () {
+            todos.forEach(task => {
+                let li = document.createElement("li");
+                li.innerText = task + " ";
+
+                let deleteBtn = document.createElement("button");
+                deleteBtn.innerText = "Delete";
+
+                deleteBtn.onclick = function () {
+                    li.remove();
+                    todos = todos.filter(t => t !== task);
+                    saveData();
+                };
+
+                li.appendChild(deleteBtn);
+                listContainer.appendChild(li);
+            });
+        };
+
+
+
+
+
+    </script>
+</body>
+
+</html>
